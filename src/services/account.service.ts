@@ -2,12 +2,17 @@ import jwt from 'jsonwebtoken';
 
 const db = [ { email: 'wiser@wiser.com', password: 'admin@132' } ];
 
-const signin = async ({ email, password }) => {
+interface ISignin {
+	email : string,
+	password : string
+}
 
-	const user = db.find((user) => user.password === password && user.email === email);
+const signin = async ( props : ISignin ): Promise<{ token: string; }> => {
+
+	const user = db.find((user) => user.password === props.password && user.email === props.email);
 
 	if (user) {
-		const token = await jwt.sign({ email }, 'tokenwiser');
+		const token = await jwt.sign( props.email , 'tokenwiser');
 		return {
 			token
 		};
